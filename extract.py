@@ -41,6 +41,11 @@ def main(args):
 		# Remove image column
 		df = df.drop("Image", 1)
 
+		# Be sure to reset index (from 1)
+		df.index = range(1, len(df) + 1)
+
+		with open(args.out_dir / f"{name}.md", "w") as file:
+			file.write(df.to_markdown())
 		with open(args.out_dir / f"{name}.md", "w") as file:
 			file.write(df.to_markdown())
 
