@@ -46,8 +46,43 @@ def main(args):
 
 		with open(args.out_dir / f"{name}.md", "w") as file:
 			file.write(df.to_markdown())
+
+	urls = {
+		"fish": ("https://animalcrossing.fandom.com/wiki/Fish_(New_Horizons)", 1, 1),
+		"critters": ("https://animalcrossing.fandom.com/wiki/Bugs_(New_Horizons)", 2, 2),
+	}
+	for name, (url, index, skip) in tqdm(urls.items()):
+		page = requests.get(url).text
+
+		soup = BeautifulSoup(page, "html.parser")
+		table = soup.find_all("table")[index]
+
+		extractor = Extractor(table)
+		extractor.parse()
+
+		# # Clean up
+		df = pd.DataFrame(extractor.return_list())
+		df = df.replace(r"\n", "", regex=True)
+
+		# Strip all whitespace
+		df_obj = df.select_dtypes(["object"])
+		df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
+
+		# Get header row
+		df = df[skip:]
+		df.columns = df.iloc[0]
+		df = df[1:]
+
+		# Remove image column
+		df = df.drop("Image", 1)
+
+		# Be sure to reset index (from 1)
+		df.index = range(1, len(df) + 1)
+
 		with open(args.out_dir / f"{name}.md", "w") as file:
 			file.write(df.to_markdown())
+
+	# TODO KK Slider list
 
 
 def parse_args():
