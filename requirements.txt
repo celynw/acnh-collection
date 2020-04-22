@@ -1,0 +1,5 @@
+tqdm
+bs4
+html-table-extractor
+pandas
+tabulate
