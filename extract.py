@@ -55,6 +55,7 @@ def main(args):
 	for cat in db.category.unique():
 		category = db.loc[db["category"] == cat]
 		category = category.drop(["category"], axis=1)
+		category = category.sort_values("name") # Not strictly necessary
 		with open(args.out_dir / f"{cat}.md", "w") as file:
 			file.write(category.to_markdown(showindex=False))
 			file.write("\n")
