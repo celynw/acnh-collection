@@ -52,6 +52,18 @@ def main(args):
 	db = db.transpose()
 	db = db.sort_values("category") # Not strictly necessary
 	db = db.drop("id", axis=1)
+
+	# Reorder columns to put variations in the final column
+	cols = db.columns.tolist()
+	rearrangedCols = []
+	for i, col in enumerate(cols):
+		if col == "variations":
+			varColIdx = i
+		else:
+			rearrangedCols.append(col)
+	rearrangedCols.append(cols[varColIdx])
+	db = db[rearrangedCols]
+
 	db = db.reset_index(drop=True)
 
 	debug(f"\n{db}")
