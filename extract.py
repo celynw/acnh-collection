@@ -26,15 +26,15 @@ def main(args):
 		except KeyError:
 			pass
 		try:
-			df["games"]["buyPrices"] = [f'{p["value"]} {p["currency"]}' for p in df["games"]["buyPrices"]]
+			df["games"]["buyPrices"] = ", ".join([f'{p["value"]} {p["currency"]}' for p in df["games"]["buyPrices"]])
 		except KeyError:
 			pass
 		try:
-			df["games"]["variations"] = df["games"]["variations"].keys()
+			df["games"]["variations"] = ", ".join(list(df["games"]["variations"].keys()))
 		except KeyError:
 			pass
 		try:
-			df["games"]["recipe"] = [f'{k} {v}' for k, v in df["games"]["recipe"].items()]
+			df["games"]["recipe"] = ", ".join([f'{k} {v}' for k, v in df["games"]["recipe"].items()])
 		except KeyError:
 			pass
 
