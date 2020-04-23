@@ -73,7 +73,9 @@ def main(args):
 		category = category.drop(["category"], axis=1)
 		category = category.sort_values("name") # Not strictly necessary
 		with open(args.out_dir / f"{cat}.md", "w") as file:
-			file.write(category.to_markdown(showindex=False))
+			markdown = category.to_markdown(showindex=False)
+			for line in markdown.splitlines():
+				file.write(f"{line[:-2].strip()}\n")
 			file.write("\n")
 
 
