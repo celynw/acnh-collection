@@ -37,6 +37,10 @@ def main(args):
 			df["games"]["recipe"] = ", ".join([f'{k} {v}' for k, v in df["games"]["recipe"].items()])
 		except KeyError:
 			pass
+		try:
+			df["games"]["sources"] = ", ".join(df["games"]["sources"])
+		except KeyError:
+			pass
 
 		df = pd.concat([df.drop(["games"]), pd.Series(df["games"]).to_frame()])
 
