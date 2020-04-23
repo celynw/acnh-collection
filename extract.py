@@ -57,6 +57,7 @@ def main(args):
 		category = category.drop(["category"], axis=1)
 		with open(args.out_dir / f"{cat}.md", "w") as file:
 			file.write(category.to_markdown(showindex=False))
+			file.write("\n")
 
 
 def parse_args():
