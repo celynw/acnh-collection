@@ -76,7 +76,6 @@ def main(args):
 			markdown = category.to_markdown(showindex=False)
 			for line in markdown.splitlines():
 				file.write(f"{line[:-2].strip()}\n")
-			file.write("\n")
 
 
 def parse_args():
