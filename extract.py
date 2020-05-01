@@ -9,7 +9,7 @@ from kellog import debug
 
 def main(args):
 	db = None
-	paths = list(in_dir.glob("*.json"))
+	paths = list(Path("villagerdb/data/items").glob("*.json"))
 	for path in tqdm(paths):
 		with open(path, "r") as file:
 			json = ujson.load(file)
@@ -81,12 +81,9 @@ def main(args):
 
 def parse_args():
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-i", "--in-dir", help="Location of villagerdb json files")
-	parser.add_argument("-o", "--out-dir", help="Location to store markdown output")
+	parser.add_argument("out_dir", help="Location to store markdown output")
 
 	args = parser.parse_args()
-	if args.in_dir is not None:
-		args.in_dir = Path(args.in_dir)
 	if args.out_dir is not None:
 		args.out_dir = Path(args.out_dir)
 	args.out_dir.mkdir(exist_ok=True)
