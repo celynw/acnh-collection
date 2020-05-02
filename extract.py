@@ -5,7 +5,7 @@ from tqdm import tqdm
 import ujson
 import pandas as pd
 
-from kellog import debug
+from kellog import debug, warning
 
 def main(args):
 	db = None
@@ -51,12 +51,11 @@ def main(args):
 
 	db = db.transpose()
 	db = db.sort_values("category") # Not strictly necessary
-	db = db.drop("id", axis=1)
-
-	# Reorder columns to put variations in the final column
-	cols = [col for col in db.columns.tolist() if col not in ["name", "variations"]]
-	db = db[["name"] + cols + ["variations"]]
-
+	columns = ["name", "orderable", "sellPrice", "buyPrices", "sources", "customizable", "recipe", "xSize", "ySize", "variations", "category"]
+	for column in db.columns.tolist():
+		if column not in columns + ["id"]:
+			warning(f"Unused column {column}")
+	db = db.reindex(columns=columns)
 	db = db.reset_index(drop=True)
 
 	debug(f"\n{db}")
