@@ -54,15 +54,8 @@ def main(args):
 	db = db.drop("id", axis=1)
 
 	# Reorder columns to put variations in the final column
-	cols = db.columns.tolist()
-	rearrangedCols = []
-	for i, col in enumerate(cols):
-		if col == "variations":
-			varColIdx = i
-		else:
-			rearrangedCols.append(col)
-	rearrangedCols.append(cols[varColIdx])
-	db = db[rearrangedCols]
+	cols = [col for col in db.columns.tolist() if col not in ["name", "variations"]]
+	db = db[["name"] + cols + ["variations"]]
 
 	db = db.reset_index(drop=True)
 
