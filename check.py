@@ -54,7 +54,7 @@ class Item():
 
 	@staticmethod
 	def cost(line):
-		return line.split("|")[4].strip()
+		return line.split("|")[3].strip()
 
 
 def main(args):
